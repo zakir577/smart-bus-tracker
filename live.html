@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Live Bus Tracker - Bhavnagar (Demo)</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 16px; }
+    .bus { padding:8px; border:1px solid #ddd; margin:6px 0; border-radius:6px; }
+    .small { color:#666; font-size:12px; }
+  </style>
+</head>
+<body>
+
+  <a href="C:\Users\user\OneDrive\Desktop\bus project\frontend\b.html">home</a>
+
+  <h2>Live Bus Tracker — Bhavnagar (Polling demo)</h2>
+  <button id="refreshBtn">Refresh Now</button>
+  <div id="last">Not loaded yet</div>
+  <div id="list"></div>
+
+<script>
+const base = "http://localhost:3000";
+
+async function load() {
+  try {
+    const r = await fetch(base + "/buses", { cache: "no-cache" });
+    const j = await r.json();
+    document.getElementById('last').innerText = "Last fetch: " + new Date(j.timestamp).toLocaleString();
+    const html = j.buses.map(b => `
+      <div class="bus">
+        <b>${b.id} (${b.reg_no})</b><br>
+        <span class="small">Route next stop: ${b.next_stop} — distance ${b.distance_to_next_km} km — ETA ${b.eta_minutes} min</span><br>
+        Lat, Lon: ${b.lat}, ${b.lon} — Speed: ${b.speed_kmph} km/h
+      </div>
+    `).join("");
+    document.getElementById('list').innerHTML = html;
+  } catch(e) {
+    document.getElementById('list').innerHTML = "<div style='color:red'>Error: " + e.message + "</div>";
+  }
+}
+
+document.getElementById('refreshBtn').onclick = load;
+load();
+setInterval(load, 2000);
+</script>
+</body>
+</html>

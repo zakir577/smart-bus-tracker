@@ -1,0 +1,6 @@
+{
+  "buses": [
+    { "id": 1, "route": "Bhavnagar → Nari", "lat": 21.7645, "lng": 72.1519 },
+    { "id": 2, "route": "Bhavnagar → Sidsar", "lat": 21.7588, "lng": 72.1944 }
+  ]
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smart Bus Tracking</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .bus { background: #e3e3e3; padding: 10px; margin: 10px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+
+  <a href="C:\Users\user\OneDrive\Desktop\bus project\frontend\live.html" style="display:block; margin-bottom: 20px; font-weight:bold; text-decoration:none;">live Tracking</a>
+  <h2>Bhavnagar Smart Bus Tracking</h2>
+  <button onclick="loadBuses()">Load Buses</button>
+
+  <div id="busList"></div>
+
+<script>
+function loadBuses() {
+  fetch("http://localhost:3000/buses")
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("busList").innerHTML = 
+      data.map(b => 
+        `<div class='bus'>
+           <b>Bus ID:</b> ${b.id}<br>
+           <b>Route:</b> ${b.route}<br>
+           <b>Location:</b> ${b.lat}, ${b.lng}
+         </div>`
+      ).join("");
+    });
+}
+</script>
+
+</body>
+</html>
